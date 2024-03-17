@@ -26,8 +26,8 @@ app.use(express.json());
 // API Endpoint to create an employee
 app.post("/api/student_table", async (req, res) => {
   try {
-    const { name, age } = req.body;
-    const newStudent = new Student({ name, age });
+    const { name, age, address } = req.body;
+    const newStudent = new Student({ name, age, address });
     await newStudent.save();
     res.json(newStudent);
   } catch (err) {
