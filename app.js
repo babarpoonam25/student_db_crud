@@ -54,11 +54,29 @@ app.put("/api/student_table/:id", async (req, res) => {
     const updateData = req.body;
     const student = await Student.findById(id);
     if (!student) {
-      return "Student not Exist";
+      console.error("Student not found for ID:", id);
+      return res.status(404).send("Student not found");
     }
     Object.assign(student, updateData);
     await student.save();
-    return "Student assign successfully!!";
+    return res.send("Student update successfully");
+  } catch (error) {
+    return error;
+  }
+});
+
+// API endpoints to Delete the Data
+app.delete("/api/student_table/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const deletedStudent = await Student.findByIdAndDelete(id);
+    // Check if the student exists
+    if (!deletedStudent) {
+      console.error("Student not found for ID:", id);
+      return res.status(404).send("Student not found");
+    }
+    // Send success response
+    return res.send("Student deleted successfully");
   } catch (error) {
     return error;
   }
