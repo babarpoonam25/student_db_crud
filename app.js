@@ -26,8 +26,8 @@ app.use(express.json());
 // API Endpoint to create an employee
 app.post("/api/student_table", async (req, res) => {
   try {
-    const { name, age, address } = req.body;
-    const newStudent = new Student({ name, age, address });
+    const { name, age } = req.body;
+    const newStudent = new Student({ name, age });
     await newStudent.save();
     res.json(newStudent);
   } catch (err) {
@@ -44,6 +44,23 @@ app.get("/api/student_table", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server Error" });
+  }
+});
+
+// API endpoints to upsate the Data
+app.put("/api/student_table/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updateData = req.body;
+    const student = await Student.findById(id);
+    if (!student) {
+      return "Student not Exist";
+    }
+    Object.assign(student, updateData);
+    await student.save();
+    return "Student assign successfully!!";
+  } catch (error) {
+    return error;
   }
 });
 
