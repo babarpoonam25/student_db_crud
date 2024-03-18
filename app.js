@@ -70,10 +70,11 @@ app.delete("/api/student_table/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const deletedStudent = await Student.findByIdAndDelete(id);
+
     // Check if the student exists
     if (!deletedStudent) {
       console.error("Student not found for ID:", id);
-      return res.status(404).send("Student not found");
+      return res.status(404).send("Student not found!!!");
     }
     // Send success response
     return res.send("Student deleted successfully");
